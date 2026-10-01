@@ -1,5 +1,9 @@
 package az.training.taskmanagement.service;
 
+import az.training.taskmanagement.exception.CategoryNotFoundException;
+import az.training.taskmanagement.exception.InvalidTaskException;
+import az.training.taskmanagement.exception.TaskNotFoundException;
+import az.training.taskmanagement.exception.UserNotFoundException;
 import az.training.taskmanagement.model.Priority;
 import az.training.taskmanagement.model.Task;
 import az.training.taskmanagement.model.TaskStatus;
@@ -26,13 +30,14 @@ public class TaskService {
     }
     public Task createTask(String title, String description, Priority priority, Long userId,Long categoryId) {
         if (title == null || title.isBlank()) {
-            throw new IllegalArgumentException("title boş ola bilməz");
+            throw new InvalidTaskException("title boş ola bilməz");
         }
         if (userRepository.findById(userId).isEmpty()) {
-            throw new IllegalArgumentException("User tapılmadı: id=" + userId);
+            throw new UserNotFoundException("User tapılmadı: id=" + userId);
         }
         if (categoryRepository.findById(categoryId) == null) {
-            throw new IllegalArgumentException("Category not found: " + categoryId);
+            throw new CategoryNotFoundException(
+                    "Category not found: " + categoryId);
         }
         Task task = new Task(null, title, description,
                 TaskStatus.TODO, priority == null ? Priority.MEDIUM : priority, userId, categoryId);
@@ -41,7 +46,7 @@ public class TaskService {
 
     public Task getTaskById(Long id) {
         return taskRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Task tapılmadı: id=" + id));
+                .orElseThrow(() -> new TaskNotFoundException("Task tapılmadı: id=" + id));
     }
 
     public List<Task> getAllTasks() {
