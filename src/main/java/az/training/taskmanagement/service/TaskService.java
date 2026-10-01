@@ -63,4 +63,7 @@ public class TaskService {
         getTaskById(id); // mövcudluğu yoxla
         taskRepository.deleteById(id);
     }
+    public List<Task> findByStatus(TaskStatus status) {
+        return taskRepository.findByStatus(status);
+    }
 }
