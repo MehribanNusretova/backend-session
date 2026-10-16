@@ -2,6 +2,8 @@ package az.training.taskmanagement.service;
 
 import az.training.taskmanagement.dto.CreateUserRequest;
 import az.training.taskmanagement.dto.UserResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -19,5 +21,6 @@ public interface UserService {
 
     void deleteUser(Long id);
 
-    List<UserResponse> getUsersByName(String name);
+    Page<UserResponse> getUsersByName(
+            String name, Pageable pageable);
 }

@@ -11,6 +11,8 @@ import az.training.taskmanagement.repository.UserRepository;
 import az.training.taskmanagement.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -66,10 +68,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserResponse> getUsersByName(String name) {
-        return userRepository.findUserByName(name).stream()
-                .map(UserMapper::toResponse)
-                .toList();
+    @Transactional(readOnly = true)
+    public Page<UserResponse> getUsersByName(
+            String name, Pageable pageable) {
+
+        return userRepository.findByName(name, pageable)
+                .map(UserMapper::toResponse);
     }
 
     private User findUserOrThrow(Long id) {
