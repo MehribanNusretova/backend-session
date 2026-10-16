@@ -18,4 +18,6 @@ public interface UserService {
     List<UserResponse> getAllUsers();
 
     void deleteUser(Long id);
+
+    List<UserResponse> getUsersByName(String name);
 }

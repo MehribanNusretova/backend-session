@@ -3,6 +3,8 @@ package az.training.taskmanagement.repository;
 import az.training.taskmanagement.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 /**
  * Spring Data JPA repository.
  *
@@ -12,4 +14,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     boolean existsByEmail(String email);
+
+    List<User> findUserByName(String name);
 }

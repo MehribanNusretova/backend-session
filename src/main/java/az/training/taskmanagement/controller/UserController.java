@@ -48,6 +48,11 @@ public class UserController {
         return userService.getAllUsers();
     }
 
+    @GetMapping("/{name}")
+    public List<UserResponse> getByName(@RequestParam String name) {
+        return userService.getUsersByName(name);
+    }
+
     @GetMapping("/{id}/tasks")
     public List<TaskResponse> getUserTasks(@PathVariable Long id) {
         return taskService.getTasksByUser(id);

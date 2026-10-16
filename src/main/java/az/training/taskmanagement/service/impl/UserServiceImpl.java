@@ -65,6 +65,13 @@ public class UserServiceImpl implements UserService {
         log.info("User silindi: id={}", id);
     }
 
+    @Override
+    public List<UserResponse> getUsersByName(String name) {
+        return userRepository.findUserByName(name).stream()
+                .map(UserMapper::toResponse)
+                .toList();
+    }
+
     private User findUserOrThrow(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> ResourceNotFoundException.of("User", id));
